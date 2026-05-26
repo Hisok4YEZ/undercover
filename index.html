@@ -1,0 +1,2146 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Undercover 🕵️</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ============================
+   RESET & BASE
+============================ */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #0a0a0f;
+        --surface: #12121a;
+        --surface2: #1c1c2a;
+        --border: #2a2a3a;
+        --neon: #8b5cf6;
+        --neon2: #a78bfa;
+        --neon-glow: rgba(139, 92, 246, 0.35);
+        --red: #ef4444;
+        --red-glow: rgba(239, 68, 68, 0.35);
+        --green: #22c55e;
+        --text: #f0f0ff;
+        --muted: #6b7280;
+        --card: #16162200;
+      }
+
+      html,
+      body {
+        height: 100%;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Inter", sans-serif;
+        overflow-x: hidden;
+      }
+
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      /* ============================
+   SCREENS
+============================ */
+      .screen {
+        display: none;
+        width: 100%;
+        max-width: 480px;
+        min-height: 100vh;
+        padding: 24px 20px 40px;
+        flex-direction: column;
+        align-items: center;
+        animation: fadeIn 0.3s ease;
+      }
+      .screen.active {
+        display: flex;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ============================
+   TYPOGRAPHY
+============================ */
+      .logo {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 56px;
+        letter-spacing: 4px;
+        background: linear-gradient(135deg, var(--neon), #c4b5fd);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: none;
+        line-height: 1;
+        margin-bottom: 4px;
+      }
+      .tagline {
+        color: var(--muted);
+        font-size: 13px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 36px;
+      }
+      h2 {
+        font-size: 22px;
+        font-weight: 900;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      h3 {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--neon2);
+        margin-bottom: 12px;
+      }
+
+      /* ============================
+   FORM ELEMENTS
+============================ */
+      .field {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+      label {
+        display: block;
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+      input[type="text"],
+      input[type="number"] {
+        width: 100%;
+        background: var(--surface2);
+        border: 1.5px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        color: var(--text);
+        font-size: 16px;
+        font-family: "Inter", sans-serif;
+        outline: none;
+        transition: border-color 0.2s;
+      }
+      input[type="text"]:focus,
+      input[type="number"]:focus {
+        border-color: var(--neon);
+        box-shadow: 0 0 0 3px var(--neon-glow);
+      }
+      input[type="number"] {
+        text-align: center;
+        font-size: 22px;
+        font-weight: 700;
+      }
+
+      .number-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .num-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        border: 1.5px solid var(--border);
+        background: var(--surface2);
+        color: var(--text);
+        font-size: 22px;
+        cursor: pointer;
+        transition:
+          background 0.15s,
+          border-color 0.15s;
+        flex-shrink: 0;
+      }
+      .num-btn:hover {
+        background: var(--border);
+        border-color: var(--neon);
+      }
+      .num-input {
+        flex: 1;
+      }
+
+      /* ============================
+   BUTTONS
+============================ */
+      .btn {
+        width: 100%;
+        padding: 16px;
+        border-radius: 14px;
+        border: none;
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 22px;
+        letter-spacing: 2px;
+        cursor: pointer;
+        transition:
+          transform 0.15s,
+          box-shadow 0.15s;
+        margin-top: 8px;
+      }
+      .btn:active {
+        transform: scale(0.97);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, var(--neon), #7c3aed);
+        color: #fff;
+        box-shadow: 0 4px 20px var(--neon-glow);
+      }
+      .btn-primary:hover {
+        box-shadow: 0 6px 28px var(--neon-glow);
+      }
+
+      .btn-danger {
+        background: linear-gradient(135deg, var(--red), #dc2626);
+        color: #fff;
+        box-shadow: 0 4px 20px var(--red-glow);
+      }
+
+      .btn-ghost {
+        background: var(--surface2);
+        color: var(--text);
+        border: 1.5px solid var(--border);
+        font-family: "Inter", sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0;
+      }
+      .btn-ghost:hover {
+        border-color: var(--neon);
+      }
+
+      .btn-sm {
+        width: auto;
+        padding: 10px 20px;
+        font-size: 14px;
+        font-family: "Inter", sans-serif;
+        font-weight: 700;
+        letter-spacing: 0;
+        border-radius: 10px;
+      }
+
+      /* ============================
+   TOGGLE / CHECKBOX
+============================ */
+      .toggle-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--surface2);
+        border: 1.5px solid var(--border);
+        border-radius: 14px;
+        padding: 14px 16px;
+        width: 100%;
+        margin-bottom: 20px;
+        cursor: pointer;
+        transition: border-color 0.2s;
+      }
+      .toggle-row:hover {
+        border-color: var(--neon);
+      }
+      .toggle-label {
+        font-size: 15px;
+        font-weight: 600;
+      }
+      .toggle-sub {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 2px;
+      }
+      .toggle {
+        position: relative;
+        width: 48px;
+        height: 26px;
+        flex-shrink: 0;
+      }
+      .toggle input {
+        display: none;
+      }
+      .toggle-track {
+        position: absolute;
+        inset: 0;
+        background: var(--border);
+        border-radius: 13px;
+        transition: background 0.2s;
+      }
+      .toggle input:checked ~ .toggle-track {
+        background: var(--neon);
+      }
+      .toggle-thumb {
+        position: absolute;
+        top: 3px;
+        left: 3px;
+        width: 20px;
+        height: 20px;
+        background: #fff;
+        border-radius: 50%;
+        transition: left 0.2s;
+        pointer-events: none;
+      }
+      .toggle input:checked ~ .toggle-thumb {
+        left: 25px;
+      }
+
+      /* ============================
+   CARD FLIP
+============================ */
+      .card-scene {
+        perspective: 900px;
+        width: 100%;
+        margin-bottom: 24px;
+      }
+      .card-3d {
+        position: relative;
+        width: 100%;
+        min-height: 220px;
+        transform-style: preserve-3d;
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .card-3d.flipped {
+        transform: rotateY(180deg);
+      }
+
+      .card-face {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        border-radius: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 28px 24px;
+        border: 1.5px solid var(--border);
+      }
+      .card-front {
+        background: var(--surface2);
+      }
+      .card-back {
+        transform: rotateY(180deg);
+      }
+      .card-back.civil {
+        background: linear-gradient(145deg, #1a1a2e, #16213e);
+        border-color: var(--neon);
+        box-shadow: 0 0 30px var(--neon-glow);
+      }
+      .card-back.undercover {
+        background: linear-gradient(145deg, #1a0a0a, #2e1010);
+        border-color: var(--red);
+        box-shadow: 0 0 30px var(--red-glow);
+      }
+      .card-back.mrwhite {
+        background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+        border-color: #9ca3af;
+        box-shadow: 0 0 30px rgba(156, 163, 175, 0.3);
+      }
+
+      .card-role-icon {
+        font-size: 48px;
+        margin-bottom: 8px;
+      }
+      .card-role-name {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 28px;
+        letter-spacing: 3px;
+        margin-bottom: 16px;
+      }
+      .card-word {
+        font-size: 38px;
+        font-weight: 900;
+        text-align: center;
+        line-height: 1.1;
+      }
+      .card-hint-label {
+        font-size: 11px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--muted);
+        margin-bottom: 8px;
+      }
+      .card-hint {
+        font-size: 17px;
+        font-weight: 600;
+        text-align: center;
+        font-style: italic;
+        color: #d1d5db;
+        line-height: 1.4;
+      }
+
+      .card-tap-hint {
+        font-size: 13px;
+        color: var(--muted);
+        text-align: center;
+        letter-spacing: 1px;
+      }
+
+      /* ============================
+   PLAYER LIST / VOTES
+============================ */
+      .player-list {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+      .player-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: var(--surface2);
+        border: 1.5px solid var(--border);
+        border-radius: 14px;
+        padding: 14px 16px;
+        transition:
+          border-color 0.2s,
+          opacity 0.2s;
+      }
+      .player-item.eliminated {
+        opacity: 0.4;
+        text-decoration: line-through;
+      }
+      .player-item.selected {
+        border-color: var(--red);
+        background: rgba(239, 68, 68, 0.08);
+      }
+      .player-name {
+        font-weight: 700;
+        font-size: 16px;
+      }
+      .player-badge {
+        font-size: 11px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 6px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+      }
+      .badge-civil {
+        background: rgba(139, 92, 246, 0.2);
+        color: var(--neon2);
+      }
+      .badge-under {
+        background: rgba(239, 68, 68, 0.2);
+        color: #f87171;
+      }
+      .badge-mw {
+        background: rgba(156, 163, 175, 0.2);
+        color: #d1d5db;
+      }
+      .badge-vote {
+        background: var(--red);
+        color: #fff;
+        cursor: pointer;
+      }
+      .badge-vote:hover {
+        background: #dc2626;
+      }
+
+      /* ============================
+   VOTE COUNTER
+============================ */
+      .vote-counter {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-bottom: 16px;
+        justify-content: center;
+      }
+      .vote-chip {
+        background: var(--surface2);
+        border: 1.5px solid var(--border);
+        border-radius: 8px;
+        padding: 6px 12px;
+        font-size: 13px;
+        font-weight: 600;
+      }
+
+      /* ============================
+   RESULT / END SCREENS
+============================ */
+      .result-icon {
+        font-size: 72px;
+        margin-bottom: 16px;
+      }
+      .result-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 42px;
+        letter-spacing: 3px;
+        text-align: center;
+        margin-bottom: 8px;
+      }
+      .result-sub {
+        color: var(--muted);
+        font-size: 15px;
+        text-align: center;
+        margin-bottom: 28px;
+      }
+
+      .reveal-list {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 24px;
+      }
+      .reveal-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: var(--surface2);
+        border-radius: 12px;
+        padding: 12px 14px;
+        border: 1.5px solid var(--border);
+      }
+      .reveal-item .ri-icon {
+        font-size: 22px;
+      }
+      .reveal-item .ri-name {
+        font-weight: 700;
+        flex: 1;
+      }
+      .reveal-item .ri-role {
+        font-size: 12px;
+        color: var(--muted);
+      }
+      .reveal-item .ri-word {
+        font-weight: 700;
+        font-size: 13px;
+      }
+
+      /* ============================
+   TROLL END SCREEN
+============================ */
+      .troll-screen {
+        background: linear-gradient(145deg, #1a0010, #0a001a);
+      }
+      .troll-title {
+        font-family: "Bebas Neue", sans-serif;
+        font-size: 36px;
+        letter-spacing: 2px;
+        text-align: center;
+        color: #f472b6;
+        margin-bottom: 8px;
+      }
+
+      /* ============================
+   MISC UTILITIES
+============================ */
+      .divider {
+        width: 100%;
+        height: 1px;
+        background: var(--border);
+        margin: 20px 0;
+      }
+      .info-box {
+        width: 100%;
+        background: var(--surface2);
+        border: 1.5px solid var(--border);
+        border-radius: 14px;
+        padding: 14px 16px;
+        margin-bottom: 16px;
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+      .info-box strong {
+        color: var(--text);
+      }
+
+      .step-indicator {
+        font-size: 12px;
+        color: var(--muted);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+
+      .troll-badge {
+        position: fixed;
+        bottom: 12px;
+        right: 14px;
+        font-size: 20px;
+        opacity: 0.3;
+        pointer-events: none;
+        z-index: 999;
+      }
+
+      .eliminated-banner {
+        width: 100%;
+        background: rgba(239, 68, 68, 0.1);
+        border: 1.5px solid var(--red);
+        border-radius: 14px;
+        padding: 18px;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .eliminated-banner .eb-name {
+        font-size: 22px;
+        font-weight: 900;
+      }
+      .eliminated-banner .eb-role {
+        font-size: 14px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+      .eliminated-banner .eb-word {
+        font-size: 26px;
+        font-weight: 900;
+        color: var(--red);
+        margin-top: 8px;
+      }
+
+      /* ============================
+   POPUP / MODAL
+============================ */
+      .overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.85);
+        z-index: 500;
+        align-items: center;
+        justify-content: center;
+        padding: 24px;
+      }
+      .overlay.active {
+        display: flex;
+      }
+      .modal {
+        background: var(--surface2);
+        border: 1.5px solid var(--neon);
+        border-radius: 20px;
+        padding: 28px 24px;
+        width: 100%;
+        max-width: 380px;
+        animation: fadeIn 0.25s ease;
+        text-align: center;
+      }
+      .modal h3 {
+        color: var(--text);
+        font-size: 20px;
+        margin-bottom: 12px;
+      }
+      .modal p {
+        color: var(--muted);
+        font-size: 14px;
+        margin-bottom: 20px;
+        line-height: 1.5;
+      }
+      .modal input {
+        margin-bottom: 16px;
+      }
+      .modal-btns {
+        display: flex;
+        gap: 10px;
+      }
+      .modal-btns .btn {
+        margin-top: 0;
+      }
+
+      /* Progress bar */
+      .progress-bar {
+        width: 100%;
+        height: 4px;
+        background: var(--border);
+        border-radius: 2px;
+        margin-bottom: 28px;
+        overflow: hidden;
+      }
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, var(--neon), #7c3aed);
+        border-radius: 2px;
+        transition: width 0.3s;
+      }
+
+      /* Round badge */
+      .round-badge {
+        display: inline-block;
+        background: var(--surface2);
+        border: 1.5px solid var(--border);
+        border-radius: 20px;
+        padding: 6px 16px;
+        font-size: 13px;
+        font-weight: 700;
+        color: var(--muted);
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+      }
+
+      /* Confetti placeholder */
+      @keyframes confettiFall {
+        from {
+          transform: translateY(-20px) rotate(0deg);
+          opacity: 1;
+        }
+        to {
+          transform: translateY(100vh) rotate(720deg);
+          opacity: 0;
+        }
+      }
+      .confetti-piece {
+        position: fixed;
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+        animation: confettiFall linear forwards;
+        pointer-events: none;
+        z-index: 9999;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- =====================================================
+     SCREEN 1 : ACCUEIL / CONFIG
+===================================================== -->
+    <div id="screen-config" class="screen active">
+      <div class="logo">UNDERCOVER</div>
+      <div class="tagline">Qui est l'imposteur ?</div>
+
+      <div class="field">
+        <label>Nombre de joueurs</label>
+        <div class="number-row">
+          <button class="num-btn" onclick="adjustNum('players', -1)">−</button>
+          <input
+            type="number"
+            id="num-players"
+            class="num-input"
+            value="6"
+            min="3"
+            max="12"
+            readonly
+          />
+          <button class="num-btn" onclick="adjustNum('players', 1)">＋</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Undercover(s) 🕵️</label>
+        <div class="number-row">
+          <button class="num-btn" onclick="adjustNum('under', -1)">−</button>
+          <input
+            type="number"
+            id="num-under"
+            class="num-input"
+            value="1"
+            min="1"
+            max="4"
+            readonly
+          />
+          <button class="num-btn" onclick="adjustNum('under', 1)">＋</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Mr White(s) ⬜</label>
+        <div class="number-row">
+          <button class="num-btn" onclick="adjustNum('mw', -1)">−</button>
+          <input
+            type="number"
+            id="num-mw"
+            class="num-input"
+            value="0"
+            min="0"
+            max="2"
+            readonly
+          />
+          <button class="num-btn" onclick="adjustNum('mw', 1)">＋</button>
+        </div>
+      </div>
+
+      <label class="toggle-row" for="troll-toggle">
+        <div>
+          <div class="toggle-label">🎭 Mode Troll</div>
+          <div class="toggle-sub">1 chance sur 15 que le chaos règne</div>
+        </div>
+        <div class="toggle">
+          <input type="checkbox" id="troll-toggle" />
+          <div class="toggle-track"></div>
+          <div class="toggle-thumb"></div>
+        </div>
+      </label>
+
+      <button class="btn btn-primary" onclick="startGame()">
+        Lancer la partie
+      </button>
+    </div>
+
+    <!-- =====================================================
+     SCREEN 2 : SAISIE DU PRÉNOM
+===================================================== -->
+    <div id="screen-name" class="screen">
+      <div class="logo" style="font-size: 36px; margin-bottom: 4px">
+        UNDERCOVER
+      </div>
+      <div class="step-indicator" id="step-label">Joueur 1 / 6</div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+      </div>
+
+      <h2>À qui est le tour ?</h2>
+      <div class="info-box">
+        Passe le téléphone à la personne concernée, puis entre ton prénom.
+      </div>
+
+      <div class="field">
+        <label>Ton prénom</label>
+        <input
+          type="text"
+          id="player-name-input"
+          placeholder="Ex : Lucas"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="words"
+        />
+      </div>
+
+      <button class="btn btn-primary" onclick="showRole()">
+        Voir mon rôle 👁
+      </button>
+    </div>
+
+    <!-- =====================================================
+     SCREEN 3 : RÉVÉLATION DU RÔLE (FLIP CARD)
+===================================================== -->
+    <div id="screen-role" class="screen">
+      <div class="step-indicator" id="role-step-label">Joueur 1 / 6</div>
+
+      <div class="card-scene">
+        <div class="card-3d" id="role-card">
+          <!-- FACE AVANT -->
+          <div class="card-face card-front">
+            <div style="font-size: 48px; margin-bottom: 12px">🃏</div>
+            <div
+              style="font-weight: 700; font-size: 18px; margin-bottom: 6px"
+              id="card-player-name"
+            >
+              Lucas
+            </div>
+            <div class="card-tap-hint">Appuie pour révéler ton rôle</div>
+          </div>
+          <!-- FACE ARRIÈRE -->
+          <div class="card-face card-back" id="card-back-face">
+            <div class="card-role-icon" id="card-icon">👤</div>
+            <div class="card-role-name" id="card-role">CIVIL</div>
+            <div class="card-hint-label" id="card-word-label">TON MOT</div>
+            <div class="card-word" id="card-word">Pizza</div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        class="btn btn-ghost"
+        onclick="nextPlayer()"
+        id="pass-btn"
+        style="display: none"
+      >
+        Masquer &amp; passer au suivant 🙈
+      </button>
+      <button
+        class="btn btn-ghost"
+        onclick="goToGame()"
+        id="start-game-btn"
+        style="display: none"
+      >
+        Tout le monde a son rôle — Jouer ! 🚀
+      </button>
+    </div>
+
+    <!-- =====================================================
+     SCREEN 4 : PHASE DE JEU — VOTES
+===================================================== -->
+    <div id="screen-game" class="screen">
+      <div class="logo" style="font-size: 36px; margin-bottom: 4px">
+        UNDERCOVER
+      </div>
+      <div class="round-badge" id="round-badge">Tour 1</div>
+
+      <div class="info-box">
+        Chaque joueur décrit son mot en <strong>une phrase</strong>. Puis votez
+        pour éliminer quelqu'un.
+      </div>
+
+      <h3>Voter pour éliminer :</h3>
+      <div class="player-list" id="vote-list"></div>
+
+      <button
+        class="btn btn-danger"
+        onclick="confirmElimination()"
+        id="confirm-vote-btn"
+        disabled
+      >
+        Éliminer le joueur sélectionné
+      </button>
+    </div>
+
+    <!-- =====================================================
+     SCREEN 5 : JOUEUR ÉLIMINÉ
+===================================================== -->
+    <div id="screen-eliminated" class="screen">
+      <div style="font-size: 64px; margin-bottom: 16px">☠️</div>
+      <h2>Éliminé !</h2>
+      <div class="eliminated-banner" id="elim-banner">
+        <div class="eb-name" id="elim-name">Lucas</div>
+        <div class="eb-role" id="elim-role">était Civil</div>
+        <div class="eb-word" id="elim-word">Pizza</div>
+      </div>
+
+      <div id="mw-guess-section" style="display: none; width: 100%">
+        <div class="info-box" style="border-color: var(--neon)">
+          <strong>⬜ Mr White peut tenter de deviner le mot des Civils !</strong
+          ><br />
+          S'il devine correctement, il gagne la partie.
+        </div>
+        <button
+          class="btn btn-primary"
+          onclick="openMrWhiteGuess()"
+          style="margin-bottom: 10px"
+        >
+          Tenter de deviner le mot
+        </button>
+        <button
+          class="btn btn-ghost"
+          onclick="mwGiveUp()"
+          style="margin-bottom: 10px"
+        >
+          Passer (ne pas deviner)
+        </button>
+      </div>
+
+      <button
+        class="btn btn-primary"
+        id="continue-btn"
+        onclick="continueGame()"
+      >
+        Continuer la partie ▶
+      </button>
+    </div>
+
+    <!-- =====================================================
+     SCREEN 6 : FIN DE PARTIE — CIVILS GAGNENT
+===================================================== -->
+    <div id="screen-win-civil" class="screen">
+      <div class="result-icon">🎉</div>
+      <div class="result-title">Les Civils Gagnent !</div>
+      <div class="result-sub">Les imposteurs ont été démasqués.</div>
+      <div class="divider"></div>
+      <h3>Récapitulatif</h3>
+      <div class="reveal-list" id="reveal-civil"></div>
+      <div class="info-box">
+        Mot civil : <strong id="reveal-civil-word"></strong><br />
+        Mot undercover : <strong id="reveal-under-word"></strong>
+      </div>
+      <button class="btn btn-primary" onclick="restartGame()">
+        Rejouer 🔄
+      </button>
+    </div>
+
+    <!-- =====================================================
+     SCREEN 7 : FIN DE PARTIE — UNDERCOVER GAGNENT
+===================================================== -->
+    <div id="screen-win-under" class="screen">
+      <div class="result-icon">🕵️</div>
+      <div class="result-title">Les Undercover Gagnent !</div>
+      <div class="result-sub">Les imposteurs ont semé le doute.</div>
+      <div class="divider"></div>
+      <h3>Récapitulatif</h3>
+      <div class="reveal-list" id="reveal-under"></div>
+      <div class="info-box">
+        Mot civil : <strong id="reveal-under-civil-word"></strong><br />
+        Mot undercover : <strong id="reveal-under-under-word"></strong>
+      </div>
+      <button class="btn btn-primary" onclick="restartGame()">
+        Rejouer 🔄
+      </button>
+    </div>
+
+    <!-- =====================================================
+     SCREEN 8 : FIN DE PARTIE — MR WHITE GAGNE
+===================================================== -->
+    <div id="screen-win-mw" class="screen">
+      <div class="result-icon">⬜</div>
+      <div class="result-title">Mr White Gagne !</div>
+      <div class="result-sub">Il a deviné le mot des Civils !</div>
+      <div class="divider"></div>
+      <h3>Récapitulatif</h3>
+      <div class="reveal-list" id="reveal-mw"></div>
+      <div class="info-box">
+        Le mot était : <strong id="reveal-mw-word"></strong>
+      </div>
+      <button class="btn btn-primary" onclick="restartGame()">
+        Rejouer 🔄
+      </button>
+    </div>
+
+    <!-- =====================================================
+     SCREEN 9 : MODE TROLL — FIN
+===================================================== -->
+    <div id="screen-troll-end" class="screen troll-screen">
+      <div style="font-size: 72px; margin-bottom: 16px">😈</div>
+      <div class="troll-title">TOUT LE MONDE<br />ÉTAIT IMPOSTEUR !</div>
+      <div class="result-sub" style="color: #f9a8d4; margin-top: 8px">
+        Le Mode Troll a frappé. Personne ne partageait le même mot.
+      </div>
+      <div class="divider" style="background: #3a1a2a"></div>
+      <h3 style="color: #f472b6">Qui avait quoi :</h3>
+      <div class="reveal-list" id="reveal-troll"></div>
+      <button
+        class="btn"
+        style="
+          background: linear-gradient(135deg, #ec4899, #8b5cf6);
+          color: #fff;
+          margin-top: 8px;
+        "
+        onclick="restartGame()"
+      >
+        Rejouer 🎭
+      </button>
+    </div>
+
+    <!-- =====================================================
+     POPUP : MR WHITE DEVINE
+===================================================== -->
+    <div class="overlay" id="mw-overlay">
+      <div class="modal">
+        <h3>⬜ Devine le mot des Civils</h3>
+        <p>Tu as une seule chance. Si tu trouves le bon mot, tu gagnes !</p>
+        <input
+          type="text"
+          id="mw-guess-input"
+          placeholder="Ton mot..."
+          autocomplete="off"
+        />
+        <div class="modal-btns">
+          <button
+            class="btn btn-ghost btn-sm"
+            style="flex: 1"
+            onclick="closeMwOverlay()"
+          >
+            Annuler
+          </button>
+          <button
+            class="btn btn-primary btn-sm"
+            style="flex: 1; font-size: 16px"
+            onclick="submitMwGuess()"
+          >
+            Deviner
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Troll badge (discret, visible en jeu si troll actif) -->
+    <div class="troll-badge" id="troll-badge" style="display: none">🎭</div>
+
+    <script>
+      /* ============================
+   WORD DATABASE — 500+ paires
+============================ */
+      const WORDS = [
+        // FOOD & BOISSON
+        { c: "Pizza", u: "Lasagne", h: "Italie" },
+        { c: "Sushi", u: "Maki", h: "Japon" },
+        { c: "Burger", u: "Sandwich", h: "Pain" },
+        { c: "Café", u: "Thé", h: "Boisson" },
+        { c: "Bière", u: "Cidre", h: "Alcool" },
+        { c: "Nutella", u: "Pâte à tartiner", h: "Chocolat" },
+        { c: "Kebab", u: "Tacos", h: "Fast-food" },
+        { c: "Frites", u: "Potatoes", h: "Pomme-de-terre" },
+        { c: "Chocolat", u: "Cacao", h: "Sucrerie" },
+        { c: "Glace", u: "Sorbet", h: "Froid" },
+        { c: "Crêpe", u: "Gaufre", h: "Dessert" },
+        { c: "Tiramisu", u: "Panna cotta", h: "Dessert" },
+        { c: "Cookie", u: "Brownie", h: "Gâteau" },
+        { c: "Chips", u: "Pop-corn", h: "Apéro" },
+        { c: "Fromage", u: "Yaourt", h: "Laitage" },
+        { c: "Baguette", u: "Pain de mie", h: "Boulangerie" },
+        { c: "Croissant", u: "Pain au chocolat", h: "Viennoiserie" },
+        { c: "Pastèque", u: "Melon", h: "Fruit" },
+        { c: "Fraise", u: "Framboise", h: "Fruit" },
+        { c: "Ramen", u: "Pho", h: "Nouilles" },
+        { c: "Tacos", u: "Burrito", h: "Mexique" },
+        { c: "Limonade", u: "Orangina", h: "Soda" },
+        { c: "Champagne", u: "Prosecco", h: "Bulles" },
+        { c: "Miel", u: "Confiture", h: "Sucre" },
+        { c: "Avocat", u: "Guacamole", h: "Vert" },
+        { c: "Granola", u: "Muesli", h: "Céréales" },
+        { c: "Smoothie", u: "Jus de fruit", h: "Boisson" },
+        { c: "Tarte", u: "Quiche", h: "Pâte" },
+        { c: "Soupe", u: "Velouté", h: "Chaud" },
+        { c: "Pancake", u: "Waffle", h: "Petit-déjeuner" },
+        { c: "Macarons", u: "Meringues", h: "Sucre" },
+        { c: "Mozzarella", u: "Burrata", h: "Fromage" },
+        { c: "Saumon", u: "Thon", h: "Poisson" },
+        { c: "Pesto", u: "Tapenade", h: "Sauce" },
+        { c: "Popcorn", u: "Chips", h: "Cinéma" },
+        { c: "Bagel", u: "Sandwich", h: "Pain" },
+        { c: "Cheddar", u: "Emmental", h: "Fromage" },
+        { c: "Wasabi", u: "Moutarde", h: "Piquant" },
+        { c: "Tempura", u: "Beignet", h: "Friture" },
+        { c: "Espresso", u: "Cappuccino", h: "Café" },
+        { c: "Matcha", u: "Thé vert", h: "Vert" },
+        { c: "Kombucha", u: "Kéfir", h: "Boisson" },
+        { c: "Açaï", u: "Smoothie bowl", h: "Fruit" },
+        { c: "Crème brûlée", u: "Flan", h: "Dessert" },
+        { c: "Madeleine", u: "Financier", h: "Gâteau" },
+
+        // TECHNOLOGIE
+        { c: "Téléphone", u: "Tablette", h: "Écran" },
+        { c: "Écouteurs", u: "Casque audio", h: "Musique" },
+        { c: "Chargeur", u: "Câble USB", h: "Batterie" },
+        { c: "Ordinateur", u: "Laptop", h: "Travail" },
+        { c: "Souris", u: "Trackpad", h: "Clic" },
+        { c: "Clavier", u: "Manette", h: "Touches" },
+        { c: "Wifi", u: "4G", h: "Internet" },
+        { c: "Application", u: "Site web", h: "Digital" },
+        { c: "Notification", u: "Alerte", h: "Son" },
+        { c: "Selfie", u: "Portrait", h: "Photo" },
+        { c: "Batterie", u: "Chargeur", h: "Énergie" },
+        { c: "Écran", u: "Moniteur", h: "Affichage" },
+        { c: "Imprimante", u: "Scanner", h: "Papier" },
+        { c: "Drone", u: "Hélicoptère télécommandé", h: "Vol" },
+        { c: "VR", u: "Casque gaming", h: "Virtuel" },
+        { c: "Smartwatch", u: "Montre connectée", h: "Poignet" },
+        { c: "Enceinte bluetooth", u: "Barre de son", h: "Musique" },
+        { c: "Disque dur", u: "Clé USB", h: "Stockage" },
+        { c: "Antivirus", u: "Pare-feu", h: "Sécurité" },
+        { c: "Caméra", u: "Webcam", h: "Vidéo" },
+        { c: "GPS", u: "Google Maps", h: "Carte" },
+        { c: "IA", u: "Chatbot", h: "Intelligence" },
+        { c: "Robot aspirateur", u: "Aspirateur", h: "Ménage" },
+        { c: "Console", u: "PC gaming", h: "Jeu" },
+        { c: "Batterie externe", u: "Power bank", h: "Énergie" },
+
+        // RÉSEAUX SOCIAUX & INTERNET
+        { c: "TikTok", u: "Instagram", h: "Application" },
+        { c: "Like", u: "Cœur", h: "Validation" },
+        { c: "Story", u: "Reel", h: "Vidéo" },
+        { c: "Tweet", u: "Post", h: "Message" },
+        { c: "Mème", u: "GIF", h: "Humour" },
+        { c: "Influenceur", u: "Créateur de contenu", h: "Web" },
+        { c: "Stream", u: "Podcast", h: "Audio" },
+        { c: "Pseudo", u: "Username", h: "Identité" },
+        { c: "Dark web", u: "VPN", h: "Réseau" },
+        { c: "Viral", u: "Tendance", h: "Internet" },
+        { c: "Abonné", u: "Follower", h: "Nombre" },
+        { c: "Hashtag", u: "Mot-clé", h: "Symbole" },
+        { c: "Retweet", u: "Partage", h: "Réseau" },
+        { c: "Feed", u: "Fil d'actualité", h: "Écran" },
+        { c: "Screen time", u: "Temps d'écran", h: "Durée" },
+        { c: "Spam", u: "Pub", h: "Message" },
+        { c: "Profil", u: "Compte", h: "Page" },
+        { c: "Commentaire", u: "Avis", h: "Texte" },
+        { c: "Miniature", u: "Vignette", h: "Image" },
+        { c: "Thread", u: "Fil de discussion", h: "Texte" },
+        { c: "Community manager", u: "Modérateur", h: "Métier" },
+        { c: "Deepfake", u: "Filtre", h: "Trucage" },
+        { c: "Phishing", u: "Spam", h: "Arnaque" },
+
+        // SPORT
+        { c: "Football", u: "Rugby", h: "Ballon" },
+        { c: "Tennis", u: "Ping-pong", h: "Raquette" },
+        { c: "Basket", u: "Volley", h: "Ballon" },
+        { c: "Natation", u: "Plongeon", h: "Eau" },
+        { c: "Vélo", u: "Trottinette", h: "Roues" },
+        { c: "Arbitre", u: "Coach", h: "Terrain" },
+        { c: "But", u: "Panier", h: "Score" },
+        { c: "Penalty", u: "Coup franc", h: "Faute" },
+        { c: "Stade", u: "Gymnase", h: "Sport" },
+        { c: "Marathon", u: "Semi-marathon", h: "Course" },
+        { c: "Ski", u: "Snowboard", h: "Neige" },
+        { c: "Surf", u: "Kitesurf", h: "Vague" },
+        { c: "Boxe", u: "MMA", h: "Combat" },
+        { c: "Yoga", u: "Pilates", h: "Souplesse" },
+        { c: "Gym", u: "Musculation", h: "Salle" },
+        { c: "Escalade", u: "Via ferrata", h: "Hauteur" },
+        { c: "Piscine", u: "Lac", h: "Eau" },
+        { c: "Sprint", u: "Course de haies", h: "Vitesse" },
+        { c: "Haltère", u: "Kettlebell", h: "Poids" },
+        { c: "Badminton", u: "Squash", h: "Raquette" },
+        { c: "Handball", u: "Waterpolo", h: "Ballon" },
+        { c: "Patinage", u: "Hockey sur glace", h: "Glace" },
+        { c: "Triathlon", u: "Duathlon", h: "Endurance" },
+        { c: "Combat de sumo", u: "Lutte", h: "Combat" },
+        { c: "Fléchettes", u: "Billard", h: "Bar" },
+
+        // ANIMAUX
+        { c: "Chat", u: "Chaton", h: "Félin" },
+        { c: "Chien", u: "Loup", h: "Canidé" },
+        { c: "Lapin", u: "Hamster", h: "Rongeur" },
+        { c: "Dauphin", u: "Orque", h: "Mer" },
+        { c: "Lion", u: "Tigre", h: "Félin" },
+        { c: "Perroquet", u: "Corbeau", h: "Oiseau" },
+        { c: "Grenouille", u: "Crapaud", h: "Amphibien" },
+        { c: "Araignée", u: "Scorpion", h: "Petite-bête" },
+        { c: "Requin", u: "Barracuda", h: "Poisson" },
+        { c: "Pingouin", u: "Manchot", h: "Froid" },
+        { c: "Renard", u: "Loup", h: "Forêt" },
+        { c: "Panda", u: "Koala", h: "Mignon" },
+        { c: "Gorille", u: "Chimpanzé", h: "Singe" },
+        { c: "Serpent", u: "Varan", h: "Reptile" },
+        { c: "Aigle", u: "Faucon", h: "Oiseau" },
+        { c: "Pieuvre", u: "Calmar", h: "Tentacules" },
+        { c: "Rhinocéros", u: "Hippopotame", h: "Afrique" },
+        { c: "Girafe", u: "Okapi", h: "Cou" },
+        { c: "Flamant rose", u: "Héron", h: "Oiseau" },
+        { c: "Loutre", u: "Castor", h: "Eau" },
+        { c: "Poulpe", u: "Méduse", h: "Mer" },
+        { c: "Écureuil", u: "Tamia", h: "Forêt" },
+        { c: "Baleine", u: "Dauphin", h: "Mammifère" },
+        { c: "Autruche", u: "Émeu", h: "Oiseau" },
+        { c: "Lynx", u: "Puma", h: "Félin" },
+
+        // NATURE
+        { c: "Plage", u: "Lac", h: "Eau" },
+        { c: "Montagne", u: "Colline", h: "Altitude" },
+        { c: "Forêt", u: "Jungle", h: "Arbres" },
+        { c: "Rivière", u: "Ruisseau", h: "Eau" },
+        { c: "Désert", u: "Savane", h: "Chaleur" },
+        { c: "Volcan", u: "Geyser", h: "Terre" },
+        { c: "Arc-en-ciel", u: "Aurore boréale", h: "Ciel" },
+        { c: "Tempête", u: "Cyclone", h: "Météo" },
+        { c: "Falaise", u: "Grotte", h: "Roche" },
+        { c: "Glacier", u: "Iceberg", h: "Glace" },
+        { c: "Cascade", u: "Chute d'eau", h: "Eau" },
+        { c: "Prairie", u: "Steppe", h: "Herbe" },
+        { c: "Marécage", u: "Tourbière", h: "Humide" },
+        { c: "Delta", u: "Estuaire", h: "Fleuve" },
+        { c: "Aurore", u: "Coucher de soleil", h: "Lumière" },
+        { c: "Séisme", u: "Tsunami", h: "Catastrophe" },
+        { c: "Mangrove", u: "Marais salant", h: "Eau" },
+        { c: "Stalactite", u: "Stalagmite", h: "Grotte" },
+        { c: "Anticyclone", u: "Dépression", h: "Météo" },
+        { c: "Limon", u: "Argile", h: "Terre" },
+        { c: "Mousson", u: "Saison des pluies", h: "Pluie" },
+
+        // VÊTEMENTS & MODE
+        { c: "Baskets", u: "Sandales", h: "Chaussures" },
+        { c: "Jean", u: "Legging", h: "Pantalon" },
+        { c: "Hoodie", u: "Sweat", h: "Vêtement" },
+        { c: "Casquette", u: "Bonnet", h: "Tête" },
+        { c: "Robe", u: "Jupe", h: "Tissu" },
+        { c: "Manteau", u: "Doudoune", h: "Hiver" },
+        { c: "Ceinture", u: "Bretelles", h: "Pantalon" },
+        { c: "Lunettes", u: "Lentilles", h: "Vision" },
+        { c: "Parka", u: "Imperméable", h: "Pluie" },
+        { c: "Blazer", u: "Veste", h: "Chic" },
+        { c: "Chaussettes", u: "Collants", h: "Pieds" },
+        { c: "Écharpe", u: "Foulard", h: "Cou" },
+        { c: "Salopette", u: "Combinaison", h: "Vêtement" },
+        { c: "Bikini", u: "Maillot de bain", h: "Plage" },
+        { c: "Bermuda", u: "Short", h: "Été" },
+        { c: "Mocassins", u: "Loafers", h: "Chaussures" },
+        { c: "Trench", u: "Imperméable", h: "Veste" },
+        { c: "Maillot de sport", u: "Débardeur", h: "Sport" },
+        { c: "Pyjama", u: "Nuisette", h: "Nuit" },
+        { c: "Collier", u: "Bracelet", h: "Bijou" },
+
+        // MUSIQUE
+        { c: "Guitare", u: "Basse", h: "Cordes" },
+        { c: "Batterie", u: "Djembé", h: "Rythme" },
+        { c: "Concert", u: "Festival", h: "Live" },
+        { c: "Playlist", u: "Album", h: "Musique" },
+        { c: "Rappeur", u: "Chanteur", h: "Artiste" },
+        { c: "Refrain", u: "Couplet", h: "Chanson" },
+        { c: "Karaoké", u: "Battle de rap", h: "Micro" },
+        { c: "DJ", u: "Beatmaker", h: "Son" },
+        { c: "Piano", u: "Synthé", h: "Touches" },
+        { c: "Microphone", u: "Enceinte", h: "Son" },
+        { c: "Vinyls", u: "CD", h: "Support" },
+        { c: "Album", u: "EP", h: "Musique" },
+        { c: "Clip vidéo", u: "Court-métrage", h: "Écran" },
+        { c: "Basse", u: "Guitare électrique", h: "Instrument" },
+        { c: "Violon", u: "Alto", h: "Cordes" },
+        { c: "Opéra", u: "Comédie musicale", h: "Spectacle" },
+        { c: "Beat", u: "Sample", h: "Rythme" },
+        { c: "Drop", u: "Montée", h: "Électro" },
+        { c: "Featuring", u: "Collaboration", h: "Duo" },
+        { c: "Setlist", u: "Tracklist", h: "Ordre" },
+
+        // ÉMOTIONS & PERSONNALITÉ
+        { c: "Timide", u: "Introverti", h: "Caractère" },
+        { c: "Jaloux", u: "Envieux", h: "Sentiment" },
+        { c: "Fier", u: "Arrogant", h: "Ego" },
+        { c: "Curieux", u: "Fouineur", h: "Esprit" },
+        { c: "Généreux", u: "Prodigue", h: "Don" },
+        { c: "Stressé", u: "Anxieux", h: "Pression" },
+        { c: "Empathique", u: "Compatissant", h: "Humain" },
+        { c: "Perfectionniste", u: "Méticuleux", h: "Précis" },
+        { c: "Ambitieux", u: "Compétitif", h: "Succès" },
+        { c: "Nostalgique", u: "Mélancolique", h: "Passé" },
+        { c: "Impulsif", u: "Spontané", h: "Action" },
+        { c: "Sarcatique", u: "Ironique", h: "Humour" },
+        { c: "Optimiste", u: "Naïf", h: "Vision" },
+        { c: "Pessimiste", u: "Réaliste", h: "Vision" },
+        { c: "Indécis", u: "Hésitant", h: "Choix" },
+
+        // OBJETS DU QUOTIDIEN
+        { c: "Stylo", u: "Crayon", h: "Écriture" },
+        { c: "Agenda", u: "Carnet", h: "Papier" },
+        { c: "Brosse à dents", u: "Fil dentaire", h: "Dents" },
+        { c: "Miroir", u: "Vitre", h: "Reflet" },
+        { c: "Coussin", u: "Oreiller", h: "Lit" },
+        { c: "Bougie", u: "Lampe de chevet", h: "Lumière" },
+        { c: "Cadenas", u: "Verrou", h: "Sécurité" },
+        { c: "Thermos", u: "Gourde", h: "Boisson" },
+        { c: "Post-it", u: "Note", h: "Mémo" },
+        { c: "Règle", u: "Équerre", h: "Tracé" },
+        { c: "Télécommande", u: "Commande vocale", h: "Télévision" },
+        { c: "Réveil", u: "Minuteur", h: "Temps" },
+        { c: "Parapluie", u: "Poncho", h: "Pluie" },
+        { c: "Sac à dos", u: "Sac bandoulière", h: "Affaires" },
+        { c: "Calculatrice", u: "Tablette graphique", h: "Outil" },
+        { c: "Clé", u: "Badge", h: "Ouverture" },
+        { c: "Montre", u: "Bracelet connecté", h: "Heure" },
+        { c: "Aspirateur", u: "Balai", h: "Ménage" },
+        { c: "Fouet", u: "Spatule", h: "Cuisine" },
+        { c: "Casserole", u: "Poêle", h: "Cuisson" },
+
+        // LIEUX
+        { c: "Bibliothèque", u: "Librairie", h: "Livres" },
+        { c: "Supermarché", u: "Épicerie", h: "Courses" },
+        { c: "Hôpital", u: "Clinique", h: "Santé" },
+        { c: "Aéroport", u: "Gare", h: "Voyage" },
+        { c: "Piscine", u: "Spa", h: "Eau" },
+        { c: "Musée", u: "Galerie d'art", h: "Culture" },
+        { c: "Cinéma", u: "Théâtre", h: "Spectacle" },
+        { c: "Stade", u: "Arena", h: "Sport" },
+        { c: "Zoo", u: "Aquarium", h: "Animaux" },
+        { c: "Plage", u: "Piscine", h: "Baignade" },
+        { c: "Restaurant", u: "Brasserie", h: "Nourriture" },
+        { c: "Pharmacie", u: "Parapharmacie", h: "Soin" },
+        { c: "Coiffeur", u: "Barbier", h: "Cheveux" },
+        { c: "Prison", u: "Centre de détention", h: "Justice" },
+        { c: "Château", u: "Manoir", h: "Histoire" },
+        { c: "Discothèque", u: "Bar", h: "Fête" },
+        { c: "Université", u: "Lycée", h: "Études" },
+        { c: "Temple", u: "Cathédrale", h: "Religion" },
+        { c: "Bureau", u: "Open space", h: "Travail" },
+        { c: "Garage", u: "Atelier", h: "Mécanique" },
+
+        // YOUTUBERS / CRÉATEURS FR ULTRA-CONNUS
+        { c: "Squeezie", u: "Inoxtag", h: "YouTube" },
+        { c: "Mcfly", u: "Carlito", h: "Duo" },
+        { c: "Tibo InShape", u: "Ponce", h: "Internet" },
+        { c: "Norman", u: "Cyprien", h: "Podcasteur" },
+        { c: "Amixem", u: "Domingo", h: "Web" },
+
+        // JEUX VIDÉO
+        { c: "Minecraft", u: "Roblox", h: "Blocs" },
+        { c: "Fortnite", u: "Warzone", h: "Survie" },
+        { c: "Among Us", u: "Town of Salem", h: "Trahison" },
+        { c: "FIFA", u: "eFootball", h: "Football" },
+        { c: "GTA", u: "Red Dead Redemption", h: "Console" },
+        { c: "League of Legends", u: "Dota 2", h: "Stratégie" },
+        { c: "Mario Kart", u: "Crash Team Racing", h: "Course" },
+        { c: "The Sims", u: "Stardew Valley", h: "Simulation" },
+        { c: "Zelda", u: "Hollow Knight", h: "Aventure" },
+        { c: "Pokémon", u: "Digimon", h: "Monstres" },
+        { c: "Apex Legends", u: "Valorant", h: "Tir" },
+        { c: "Animal Crossing", u: "Harvest Moon", h: "Console" },
+        { c: "Dark Souls", u: "Elden Ring", h: "Difficile" },
+        { c: "Hollow Knight", u: "Ori", h: "Plateforme" },
+        { c: "Cyberpunk", u: "Fallout", h: "Monde" },
+        { c: "Clash Royale", u: "Clash of Clans", h: "Mobile" },
+        { c: "Rocket League", u: "FIFA", h: "Manette" },
+        { c: "Overwatch", u: "Paladins", h: "Équipe" },
+        { c: "Candy Crush", u: "Subway Surfers", h: "Téléphone" },
+        { c: "Terraria", u: "Starbound", h: "Aventure" },
+        { c: "Wordl", u: "Sutom", h: "Lettres" },
+        { c: "Hearthstone", u: "Yu-Gi-Oh", h: "Cartes" },
+        { c: "Escape game", u: "Salle d'énigme", h: "Énigme" },
+        { c: "Tamagotchi", u: "Furby", h: "Jouet" },
+        { c: "Nintendogs", u: "Pou", h: "Virtuel" },
+
+        // MUSIQUE GENRES
+        { c: "Rap", u: "Trap", h: "Beat" },
+        { c: "Pop", u: "RnB", h: "Radio" },
+        { c: "Metal", u: "Rock", h: "Guitare" },
+        { c: "Jazz", u: "Blues", h: "Rythme" },
+        { c: "Reggae", u: "Dancehall", h: "Soleil" },
+        { c: "Electro", u: "Techno", h: "Club" },
+        { c: "Classique", u: "Baroque", h: "Ancien" },
+        { c: "K-pop", u: "J-pop", h: "Asie" },
+        { c: "Afrobeat", u: "Afrotrap", h: "Danse" },
+        { c: "Country", u: "Folk", h: "Guitare" },
+
+        // PERSONNAGES CONNUS
+        { c: "Sherlock Holmes", u: "Hercule Poirot", h: "Enquête" },
+        { c: "Dracula", u: "Nosferatu", h: "Vampire" },
+        { c: "Batman", u: "Spider-Man", h: "Héros" },
+        { c: "Astérix", u: "Obélix", h: "BD" },
+        { c: "Naruto", u: "Goku", h: "Manga" },
+        { c: "Harry Potter", u: "Hermione", h: "Magie" },
+        { c: "Pikachu", u: "Dracaufeu", h: "Pokémon" },
+        { c: "Frodon", u: "Bilbo", h: "Anneau" },
+        { c: "Ironman", u: "Captain America", h: "Marvel" },
+        { c: "Elsa", u: "Raiponce", h: "Princesse" },
+
+        // MARQUES ICONIQUES
+        { c: "Apple", u: "Samsung", h: "Technologie" },
+        { c: "Nike", u: "Adidas", h: "Sport" },
+        { c: "McDonald's", u: "Burger King", h: "Fast-food" },
+        { c: "Ikea", u: "Maisons du Monde", h: "Meuble" },
+        { c: "Zara", u: "H&M", h: "Mode" },
+        { c: "Lego", u: "Playmobil", h: "Jouet" },
+        { c: "Google", u: "Bing", h: "Internet" },
+        { c: "Amazon", u: "Cdiscount", h: "Achat" },
+        { c: "Spotify", u: "Deezer", h: "Musique" },
+        { c: "Tesla", u: "BMW", h: "Voiture" },
+
+        // MATIÈRES SCOLAIRES
+        { c: "Mathématiques", u: "Physique", h: "Science" },
+        { c: "Français", u: "Philosophie", h: "Lettres" },
+        { c: "Histoire", u: "Géographie", h: "École" },
+        { c: "SVT", u: "Chimie", h: "Science" },
+        { c: "Anglais", u: "Espagnol", h: "Langue" },
+        { c: "EPS", u: "Danse", h: "Sport" },
+        { c: "Musique", u: "Arts plastiques", h: "Art" },
+        { c: "Économie", u: "Gestion", h: "Cours" },
+        { c: "Informatique", u: "Technologie", h: "Écran" },
+        { c: "Latin", u: "Grec ancien", h: "Langue" },
+
+        // COULEURS & DESIGN
+        { c: "Violet", u: "Mauve", h: "Couleur" },
+        { c: "Turquoise", u: "Cyan", h: "Bleu" },
+        { c: "Bordeaux", u: "Bourgogne", h: "Rouge" },
+        { c: "Beige", u: "Crème", h: "Teinte" },
+        { c: "Kaki", u: "Olive", h: "Vert" },
+        { c: "Corail", u: "Saumon", h: "Nuance" },
+        { c: "Indigo", u: "Bleu marine", h: "Bleu" },
+        { c: "Or", u: "Bronze", h: "Métal" },
+
+        // MÉTÉO & SAISONS
+        { c: "Printemps", u: "Été", h: "Saison" },
+        { c: "Automne", u: "Hiver", h: "Saison" },
+        { c: "Pluie", u: "Brouillard", h: "Météo" },
+        { c: "Soleil", u: "Chaleur", h: "Météo" },
+        { c: "Neige", u: "Verglas", h: "Froid" },
+        { c: "Canicule", u: "Vague de chaleur", h: "Chaud" },
+        { c: "Grêle", u: "Grésil", h: "Ciel" },
+        { c: "Mistral", u: "Tramontane", h: "Vent" },
+
+        // TRANSPORTS
+        { c: "Métro", u: "Tramway", h: "Ville" },
+        { c: "Bus", u: "Car", h: "Route" },
+        { c: "Avion", u: "Hélicoptère", h: "Vol" },
+        { c: "Train", u: "TGV", h: "Rail" },
+        { c: "Moto", u: "Scooter", h: "Roues" },
+        { c: "Bateau", u: "Ferry", h: "Eau" },
+        { c: "Téléphérique", u: "Remontée mécanique", h: "Montagne" },
+        { c: "Trottinette", u: "Skateboard", h: "Ville" },
+        { c: "Segway", u: "Gyroroue", h: "Moteur" },
+        { c: "Ambulance", u: "Camion de pompiers", h: "Sirène" },
+
+        // ARCHITECTURE & MAISON
+        { c: "Appartement", u: "Studio", h: "Logement" },
+        { c: "Balcon", u: "Terrasse", h: "Extérieur" },
+        { c: "Cave", u: "Garage", h: "Maison" },
+        { c: "Escalier", u: "Ascenseur", h: "Étage" },
+        { c: "Volet", u: "Store", h: "Fenêtre" },
+        { c: "Radiateur", u: "Climatiseur", h: "Maison" },
+        { c: "Parquet", u: "Carrelage", h: "Sol" },
+        { c: "Bibliothèque", u: "Étagère", h: "Meuble" },
+        { c: "Canapé", u: "Fauteuil", h: "Salon" },
+        { c: "Baignoire", u: "Douche", h: "Eau" },
+
+        // EXPRESSIONS FRANÇAISES
+        { c: "Avoir le cafard", u: "Broyer du noir", h: "Tristesse" },
+        { c: "Casser les pieds", u: "Taper sur les nerfs", h: "Énerver" },
+        { c: "Il pleut des cordes", u: "Un temps de chien", h: "Météo" },
+        { c: "Coûter les yeux de la tête", u: "Ruineux", h: "Prix" },
+        {
+          c: "Avoir du pain sur la planche",
+          u: "Avoir du boulot",
+          h: "Travail",
+        },
+        { c: "Jeter l'éponge", u: "Abandonner", h: "Fin" },
+        {
+          c: "Garder la tête hors de l'eau",
+          u: "S'en sortir",
+          h: "Difficulté",
+        },
+        { c: "Avoir le vent en poupe", u: "Être en forme", h: "Succès" },
+
+        // ANIMAUX (suite)
+        { c: "Kangourou", u: "Wallaby", h: "Australie" },
+        { c: "Tatou", u: "Pangolin", h: "Carapace" },
+        { c: "Lama", u: "Alpaga", h: "Poils" },
+        { c: "Piranha", u: "Barracuda", h: "Poisson" },
+        { c: "Pélican", u: "Mouette", h: "Oiseau" },
+        { c: "Termite", u: "Fourmi", h: "Insecte" },
+        { c: "Poulain", u: "Veau", h: "Élevage" },
+        { c: "Cerf", u: "Chevreuil", h: "Forêt" },
+        { c: "Ibis", u: "Cigogne", h: "Oiseau" },
+        { c: "Blaireau", u: "Raton laveur", h: "Masque" },
+
+        // FICTIONS & UNIVERS
+        { c: "Star Wars", u: "Star Trek", h: "Espace" },
+        { c: "Seigneur des Anneaux", u: "Game of Thrones", h: "Fantaisie" },
+        { c: "Marvel", u: "DC Comics", h: "Héros" },
+        { c: "Hunger Games", u: "Divergente", h: "Futur" },
+        { c: "Jurassic Park", u: "Jurassic World", h: "Dinosaures" },
+        { c: "Harry Potter", u: "Le monde de Narnia", h: "Magie" },
+        { c: "Titanic", u: "Pearl Harbor", h: "Film" },
+        { c: "Inception", u: "Matrix", h: "Illusion" },
+
+        // SPORT (suite)
+        { c: "Curling", u: "Bowling", h: "Piste" },
+        { c: "Golf", u: "Frisbee golf", h: "Cible" },
+        { c: "Escrime", u: "Judo", h: "Combat" },
+        { c: "Aviron", u: "Canoë", h: "Bateau" },
+        { c: "Biathlon", u: "Triathlon", h: "Course" },
+        { c: "Pelote basque", u: "Squash", h: "Mur" },
+        { c: "CrossFit", u: "HIIT", h: "Sport" },
+        { c: "Taekwondo", u: "Karaté", h: "Martial" },
+
+        // PLANTES & JARDINAGE
+        { c: "Rose", u: "Tulipe", h: "Fleur" },
+        { c: "Cactus", u: "Succulente", h: "Plante" },
+        { c: "Chêne", u: "Châtaignier", h: "Arbre" },
+        { c: "Bambou", u: "Palmier", h: "Plante" },
+        { c: "Lavande", u: "Romarin", h: "Odeur" },
+        { c: "Tournesol", u: "Marguerite", h: "Fleur" },
+        { c: "Olivier", u: "Figuier", h: "Arbre" },
+        { c: "Lierre", u: "Clématite", h: "Mur" },
+        { c: "Champignon", u: "Truffe", h: "Nature" },
+        { c: "Algue", u: "Lichen", h: "Végétal" },
+
+        // CORPS HUMAIN
+        { c: "Cerveau", u: "Moelle épinière", h: "Tête" },
+        { c: "Cœur", u: "Poumons", h: "Organe" },
+        { c: "Foie", u: "Rate", h: "Organe" },
+        { c: "Genou", u: "Coude", h: "Membre" },
+        { c: "Poignet", u: "Cheville", h: "Articulation" },
+        { c: "Nerf", u: "Veine", h: "Corps" },
+        { c: "Pupille", u: "Iris", h: "Œil" },
+        { c: "Lèvres", u: "Sourcils", h: "Visage" },
+        { c: "Vertèbre", u: "Côte", h: "Squelette" },
+        { c: "Tendon", u: "Ligament", h: "Muscle" },
+        { c: "Plaquettes", u: "Globules rouges", h: "Sang" },
+
+        // EXPRESSIONS & CONCEPTS GEN Z
+        { c: "Procrastiner", u: "Remettre à demain", h: "Temps" },
+        { c: "Crush", u: "Béguin", h: "Amour" },
+        { c: "Ghosting", u: "Laisser en vu", h: "Rupture" },
+        { c: "Flex", u: "Se la péter", h: "Style" },
+        { c: "Vibe", u: "Ambiance", h: "Énergie" },
+        { c: "Burnout", u: "Surmenage", h: "Travail" },
+        { c: "Gaslighting", u: "Manipulation", h: "Esprit" },
+        { c: "Red flag", u: "Mauvais signe", h: "Danger" },
+        { c: "Toxic", u: "Néfaste", h: "Relation" },
+        { c: "Glow up", u: "Transformation", h: "Physique" },
+        { c: "FOMO", u: "Jalousie sociale", h: "Peur" },
+        { c: "No cap", u: "Sérieusement", h: "Vérité" },
+        { c: "Slay", u: "Assurer", h: "Style" },
+        { c: "Shade", u: "Pique", h: "Critique" },
+        { c: "Woke", u: "Conscientisé", h: "Idée" },
+        { c: "Vibe check", u: "Test de compatibilité", h: "Feeling" },
+        { c: "Main character", u: "Protagoniste", h: "Rôle" },
+        { c: "Ratio", u: "Désaccord viral", h: "Réseau" },
+        { c: "Simp", u: "Amoureux transi", h: "Amour" },
+        { c: "Era", u: "Période", h: "Temps" },
+
+        // CINÉMA & SÉRIES
+        { c: "Netflix", u: "Disney+", h: "Streaming" },
+        { c: "Spoiler", u: "Révélation", h: "Histoire" },
+        { c: "Cliffhanger", u: "Fin ouverte", h: "Suspense" },
+        { c: "Réalisateur", u: "Scénariste", h: "Cinéma" },
+        { c: "Blockbuster", u: "Film indie", h: "Cinéma" },
+        { c: "Documentaire", u: "Reportage", h: "Télévision" },
+        { c: "Binge-watching", u: "Maraton série", h: "Écran" },
+        { c: "Jump scare", u: "Tension", h: "Peur" },
+        { c: "Remake", u: "Reboot", h: "Cinéma" },
+        { c: "Générique", u: "Bande annonce", h: "Vidéo" },
+
+        // VOYAGE
+        { c: "Passeport", u: "Visa", h: "Frontière" },
+        { c: "Valise", u: "Sac à dos", h: "Voyage" },
+        { c: "Auberge de jeunesse", u: "Hôtel", h: "Logement" },
+        { c: "Décalage horaire", u: "Jet lag", h: "Temps" },
+        { c: "Souvenir", u: "Cadeau touristique", h: "Objet" },
+        { c: "Guide touristique", u: "Application de voyage", h: "Livre" },
+        { c: "Taxi", u: "Uber", h: "Voiture" },
+        { c: "Billet d'avion", u: "Billet de train", h: "Voyage" },
+        { c: "Buffet", u: "All inclusive", h: "Vacances" },
+        { c: "Carte postale", u: "Selfie de voyage", h: "Image" },
+
+        // ÉCOLE & TRAVAIL
+        { c: "Examen", u: "Contrôle", h: "Note" },
+        { c: "Dissertation", u: "Exposé", h: "Devoir" },
+        { c: "Professeur", u: "Formateur", h: "École" },
+        { c: "Récréation", u: "Pause", h: "Temps" },
+        { c: "Stage", u: "Alternance", h: "Entreprise" },
+        { c: "Réunion", u: "Brainstorming", h: "Travail" },
+        { c: "CV", u: "Portfolio", h: "Emploi" },
+        { c: "Startup", u: "Entreprise", h: "Bureau" },
+        { c: "Deadline", u: "Date limite", h: "Temps" },
+        { c: "Promotion", u: "Augmentation", h: "Travail" },
+
+        // SANTÉ & BIEN-ÊTRE
+        { c: "Médecin", u: "Infirmier", h: "Soin" },
+        { c: "Médicament", u: "Complément alimentaire", h: "Santé" },
+        { c: "Meditation", u: "Pleine conscience", h: "Esprit" },
+        { c: "Régime", u: "Détox", h: "Nourriture" },
+        { c: "Sommeil", u: "Sieste", h: "Fatigue" },
+        { c: "Stress", u: "Anxiété", h: "Corps" },
+        { c: "Thérapie", u: "Coaching", h: "Mental" },
+        { c: "Vaccin", u: "Injection", h: "Soin" },
+        { c: "Allergie", u: "Intolérance", h: "Corps" },
+        { c: "Brûlure", u: "Blessure", h: "Peau" },
+
+        // FÊTES & ÉVÉNEMENTS
+        { c: "Anniversaire", u: "Fête", h: "Cadeau" },
+        { c: "Mariage", u: "Fiançailles", h: "Bague" },
+        { c: "Noël", u: "Hanoukkah", h: "Fête" },
+        { c: "Halloween", u: "Carnival", h: "Déguisement" },
+        { c: "Réveillon", u: "Saint-Sylvestre", h: "Fête" },
+        { c: "Surprise party", u: "Fête surprise", h: "Secret" },
+        { c: "Barbecue", u: "Pique-nique", h: "Repas" },
+        { c: "Ramadan", u: "Carême", h: "Religion" },
+        { c: "Concours", u: "Championnat", h: "Podium" },
+        { c: "Vente aux enchères", u: "Braderie", h: "Prix" },
+
+        // MONSTRES & IMAGINAIRE
+        { c: "Vampire", u: "Zombie", h: "Monstre" },
+        { c: "Sorcière", u: "Magicienne", h: "Magie" },
+        { c: "Dragon", u: "Wyverne", h: "Légende" },
+        { c: "Fantôme", u: "Spectre", h: "Peur" },
+        { c: "Loup-garou", u: "Vampire", h: "Lune" },
+        { c: "Sirène", u: "Nixe", h: "Mer" },
+        { c: "Elfe", u: "Lutin", h: "Forêt" },
+        { c: "Golem", u: "Frankenstein", h: "Créature" },
+        { c: "Alien", u: "Extraterrestre", h: "Espace" },
+        { c: "Robot", u: "Androïde", h: "Métal" },
+      ];
+      /* ============================
+   GAME STATE
+============================ */
+      let state = {
+        totalPlayers: 6,
+        numUnder: 1,
+        numMW: 0,
+        trollMode: false,
+        trollActive: false,
+        players: [], // {name, role, word, hint, alive}
+        currentSetup: 0, // index during role distribution
+        selectedWordPair: null,
+        round: 1,
+        selectedVote: null,
+        currentMWElim: null, // player obj of current mw being eliminated
+      };
+
+      /* ============================
+   UTILITY
+============================ */
+      function $(id) {
+        return document.getElementById(id);
+      }
+
+      function showScreen(id) {
+        document
+          .querySelectorAll(".screen")
+          .forEach((s) => s.classList.remove("active"));
+        $(id).classList.add("active");
+        window.scrollTo(0, 0);
+      }
+
+      function shuffle(arr) {
+        const a = [...arr];
+        for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+        }
+        return a;
+      }
+
+      function pick(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
+      }
+
+      function adjustNum(type, delta) {
+        const p = parseInt($("num-players").value);
+        const u = parseInt($("num-under").value);
+        const m = parseInt($("num-mw").value);
+        const maxUnder = Math.max(1, Math.floor(p / 3));
+
+        if (type === "players") {
+          const np = Math.min(12, Math.max(3, p + delta));
+          $("num-players").value = np;
+          // Clamp undercover
+          const mu = Math.max(1, Math.floor(np / 3));
+          if (u > mu) $("num-under").value = mu;
+          // Clamp mw
+          const maxMW = Math.min(2, np - parseInt($("num-under").value) - 2);
+          if (m > maxMW) $("num-mw").value = Math.max(0, maxMW);
+        } else if (type === "under") {
+          const nu = Math.min(maxUnder, Math.max(1, u + delta));
+          $("num-under").value = nu;
+        } else if (type === "mw") {
+          const maxMW = Math.min(2, p - u - 2);
+          $("num-mw").value = Math.min(maxMW, Math.max(0, m + delta));
+        }
+      }
+
+      function fillRevealList(containerId, players) {
+        const cont = $(containerId);
+        cont.innerHTML = "";
+        players.forEach((p) => {
+          const div = document.createElement("div");
+          div.className = "reveal-item";
+          const roleIcon =
+            p.role === "civil" ? "👤" : p.role === "undercover" ? "🕵️" : "⬜";
+          const roleLabel =
+            p.role === "civil"
+              ? "Civil"
+              : p.role === "undercover"
+                ? "Undercover"
+                : "Mr White";
+          div.innerHTML = `
+      <span class="ri-icon">${roleIcon}</span>
+      <span class="ri-name">${p.name}</span>
+      <span class="ri-role">${roleLabel}</span>
+      <span class="ri-word">${p.role === "civil" || p.role === "undercover" ? p.word : "—"}</span>
+    `;
+          cont.appendChild(div);
+        });
+      }
+
+      function launchConfetti() {
+        const colors = [
+          "#8b5cf6",
+          "#a78bfa",
+          "#ef4444",
+          "#f9a8d4",
+          "#fbbf24",
+          "#34d399",
+        ];
+        for (let i = 0; i < 60; i++) {
+          const el = document.createElement("div");
+          el.className = "confetti-piece";
+          el.style.cssText = `
+      left:${Math.random() * 100}vw;
+      background:${pick(colors)};
+      width:${6 + Math.random() * 8}px;
+      height:${6 + Math.random() * 8}px;
+      animation-duration:${2 + Math.random() * 3}s;
+      animation-delay:${Math.random() * 1.5}s;
+      top:-20px;
+    `;
+          document.body.appendChild(el);
+          setTimeout(() => el.remove(), 5000);
+        }
+      }
+
+      /* ============================
+   GAME START
+============================ */
+      function startGame() {
+        const p = parseInt($("num-players").value);
+        const u = parseInt($("num-under").value);
+        const m = parseInt($("num-mw").value);
+        const troll = $("troll-toggle").checked;
+
+        // Validation
+        if (u + m >= p - 1) {
+          alert("Il faut au moins 2 Civils dans la partie !");
+          return;
+        }
+
+        state.totalPlayers = p;
+        state.numUnder = u;
+        state.numMW = m;
+        state.trollMode = troll;
+        state.players = [];
+        state.currentSetup = 0;
+        state.round = 1;
+        state.selectedVote = null;
+        state.currentMWElim = null;
+
+        // Troll mode check
+        state.trollActive = troll && Math.floor(Math.random() * 15) === 0;
+
+        // Pick word pair
+        const pair = pick(WORDS);
+        state.selectedWordPair = pair;
+
+        // Assign roles
+        if (state.trollActive) {
+          // Troll: everyone gets a different random word (from civil words)
+          const shuffledWords = shuffle(WORDS);
+          const roles = [];
+          for (let i = 0; i < p; i++) {
+            roles.push({
+              role: "troll",
+              word: shuffledWords[i % shuffledWords.length].c,
+              hint: shuffledWords[i % shuffledWords.length].h,
+            });
+          }
+          state.roleAssignments = shuffle(roles);
+          $("troll-badge").style.display = "block";
+        } else {
+          $("troll-badge").style.display = "none";
+          // Normal: build roles array
+          const roles = [];
+          for (let i = 0; i < u; i++) roles.push("undercover");
+          for (let i = 0; i < m; i++) roles.push("mrwhite");
+          while (roles.length < p) roles.push("civil");
+          state.roleAssignments = shuffle(roles);
+        }
+
+        showScreen("screen-name");
+        updateNameScreen();
+      }
+
+      /* ============================
+   ROLE DISTRIBUTION
+============================ */
+      function updateNameScreen() {
+        const idx = state.currentSetup + 1;
+        const total = state.totalPlayers;
+        $("step-label").textContent = `Joueur ${idx} / ${total}`;
+        $("progress-fill").style.width = `${((idx - 1) / total) * 100}%`;
+        $("player-name-input").value = "";
+        $("player-name-input").focus();
+      }
+
+      function showRole() {
+        const name = $("player-name-input").value.trim();
+        if (!name) {
+          $("player-name-input").focus();
+          return;
+        }
+
+        const idx = state.currentSetup;
+        let role, word, hint;
+
+        if (state.trollActive) {
+          const assign = state.roleAssignments[idx];
+          role = "troll";
+          word = assign.word;
+          hint = assign.hint;
+        } else {
+          role = state.roleAssignments[idx];
+          if (role === "civil") {
+            word = state.selectedWordPair.c;
+            hint = null;
+          } else if (role === "undercover") {
+            word = state.selectedWordPair.u;
+            hint = null;
+          } else {
+            word = null;
+            hint = state.selectedWordPair.h;
+          }
+        }
+
+        state.players.push({
+          name,
+          role: state.trollActive ? "civil" : role,
+          word: state.trollActive ? word : word,
+          hint,
+          alive: true,
+          realRole: role,
+        });
+
+        // Update card
+        const total = state.totalPlayers;
+        $("role-step-label").textContent = `Joueur ${idx + 1} / ${total}`;
+        $("card-player-name").textContent = name;
+
+        const card = $("role-card");
+        card.classList.remove("flipped");
+
+        const back = $("card-back-face");
+        back.className = "card-face card-back";
+
+        let icon, roleName, wordLabel, wordContent;
+        if (state.trollActive) {
+          icon = "👤";
+          roleName = "CIVIL";
+          back.classList.add("civil");
+          wordLabel = "TON MOT";
+          wordContent = word;
+        } else if (role === "civil") {
+          icon = "👤";
+          roleName = "CIVIL";
+          back.classList.add("civil");
+          wordLabel = "TON MOT";
+          wordContent = word;
+        } else if (role === "undercover") {
+          icon = "🕵️";
+          roleName = "UNDERCOVER";
+          back.classList.add("undercover");
+          wordLabel = "TON MOT";
+          wordContent = word;
+        } else {
+          icon = "⬜";
+          roleName = "MR WHITE";
+          back.classList.add("mrwhite");
+          wordLabel = "TON INDICE";
+          wordContent = hint;
+        }
+
+        $("card-icon").textContent = icon;
+        $("card-role").textContent = roleName;
+        $("card-word-label").textContent = wordLabel;
+        $("card-word").textContent = wordContent;
+
+        // Reset buttons
+        $("pass-btn").style.display = "none";
+        $("start-game-btn").style.display = "none";
+
+        // Flip on click
+        card.onclick = () => {
+          card.classList.add("flipped");
+          card.onclick = null;
+          if (idx + 1 < total) {
+            $("pass-btn").style.display = "block";
+          } else {
+            $("start-game-btn").style.display = "block";
+          }
+        };
+
+        showScreen("screen-role");
+      }
+
+      function nextPlayer() {
+        state.currentSetup++;
+        showScreen("screen-name");
+        updateNameScreen();
+      }
+
+      function goToGame() {
+        showScreen("screen-game");
+        renderVoteList();
+      }
+
+      /* ============================
+   GAME PHASE — VOTES
+============================ */
+      function renderVoteList() {
+        $("round-badge").textContent = `Tour ${state.round}`;
+        const list = $("vote-list");
+        list.innerHTML = "";
+        state.selectedVote = null;
+        $("confirm-vote-btn").disabled = true;
+
+        const alive = state.players.filter((p) => p.alive);
+        alive.forEach((p, i) => {
+          const item = document.createElement("div");
+          item.className = "player-item";
+          item.dataset.idx = state.players.indexOf(p);
+          item.innerHTML = `
+      <span class="player-name">${p.name}</span>
+      <button class="player-badge badge-vote" onclick="selectVote(${state.players.indexOf(p)})">Voter</button>
+    `;
+          list.appendChild(item);
+        });
+      }
+
+      function selectVote(playerIdx) {
+        state.selectedVote = playerIdx;
+        document
+          .querySelectorAll(".player-item")
+          .forEach((el) => el.classList.remove("selected"));
+        const items = document.querySelectorAll(".player-item");
+        items.forEach((el) => {
+          if (parseInt(el.dataset.idx) === playerIdx)
+            el.classList.add("selected");
+        });
+        $("confirm-vote-btn").disabled = false;
+      }
+
+      function confirmElimination() {
+        if (state.selectedVote === null) return;
+        const p = state.players[state.selectedVote];
+        p.alive = false;
+
+        // Show elimination screen
+        const roleLabel =
+          p.realRole === "troll"
+            ? "Civil (Mode Troll)"
+            : p.realRole === "civil"
+              ? "Civil"
+              : p.realRole === "undercover"
+                ? "Undercover"
+                : "Mr White";
+        $("elim-name").textContent = p.name;
+        $("elim-role").textContent = `était ${roleLabel}`;
+        $("elim-word").textContent = p.word || p.hint || "???";
+
+        // Mr White guess?
+        const isMW = !state.trollActive && p.realRole === "mrwhite";
+        $("mw-guess-section").style.display = isMW ? "block" : "none";
+        $("continue-btn").style.display = isMW ? "none" : "block";
+
+        state.currentMWElim = isMW ? p : null;
+
+        showScreen("screen-eliminated");
+      }
+
+      function continueGame() {
+        state.round++;
+        // Check victory conditions
+        const result = checkVictory();
+        if (result) {
+          endGame(result);
+          return;
+        }
+        showScreen("screen-game");
+        renderVoteList();
+      }
+
+      /* ============================
+   MR WHITE GUESS
+============================ */
+      function openMrWhiteGuess() {
+        $("mw-guess-input").value = "";
+        $("mw-overlay").classList.add("active");
+        $("mw-guess-input").focus();
+      }
+
+      function closeMwOverlay() {
+        $("mw-overlay").classList.remove("active");
+        // Give up
+        mwGiveUp();
+      }
+
+      function submitMwGuess() {
+        const guess = $("mw-guess-input").value.trim().toLowerCase();
+        const target = state.selectedWordPair.c.toLowerCase();
+        $("mw-overlay").classList.remove("active");
+
+        if (guess === target || (target.includes(guess) && guess.length >= 3)) {
+          // MW wins!
+          endGame("mrwhite");
+        } else {
+          // MW loses, continue
+          mwGiveUp();
+        }
+      }
+
+      function mwGiveUp() {
+        $("mw-overlay").classList.remove("active");
+        $("mw-guess-section").style.display = "none";
+        $("continue-btn").style.display = "block";
+        continueGame();
+      }
+
+      /* ============================
+   VICTORY CONDITIONS
+============================ */
+      function checkVictory() {
+        if (state.trollActive) {
+          // Troll: play until 1 left
+          const alive = state.players.filter((p) => p.alive);
+          if (alive.length <= 1) return "troll";
+          return null;
+        }
+
+        const alive = state.players.filter((p) => p.alive);
+        const aliveUnder = alive.filter((p) => p.realRole === "undercover");
+        const aliveMW = alive.filter((p) => p.realRole === "mrwhite");
+        const aliveCivil = alive.filter((p) => p.realRole === "civil");
+
+        // All imposters eliminated → civils win
+        if (aliveUnder.length === 0 && aliveMW.length === 0) return "civil";
+
+        // Undercover ≥ civil → undercover win
+        if (aliveUnder.length + aliveMW.length >= aliveCivil.length)
+          return "undercover";
+
+        return null;
+      }
+
+      function endGame(result) {
+        if (result === "troll") {
+          // Build troll reveal
+          const list = $("reveal-troll");
+          list.innerHTML = "";
+          state.players.forEach((p) => {
+            const div = document.createElement("div");
+            div.className = "reveal-item";
+            div.innerHTML = `
+        <span class="ri-icon">🎭</span>
+        <span class="ri-name">${p.name}</span>
+        <span class="ri-role">Imposteur Troll</span>
+        <span class="ri-word">${p.word}</span>
+      `;
+            list.appendChild(div);
+          });
+          showScreen("screen-troll-end");
+          return;
+        }
+
+        if (result === "mrwhite") {
+          fillRevealList("reveal-mw", state.players);
+          $("reveal-mw-word").textContent = state.selectedWordPair.c;
+          showScreen("screen-win-mw");
+          launchConfetti();
+          return;
+        }
+
+        if (result === "civil") {
+          fillRevealList("reveal-civil", state.players);
+          $("reveal-civil-word").textContent = state.selectedWordPair.c;
+          $("reveal-under-word").textContent = state.selectedWordPair.u;
+          showScreen("screen-win-civil");
+          launchConfetti();
+          return;
+        }
+
+        if (result === "undercover") {
+          fillRevealList("reveal-under", state.players);
+          $("reveal-under-civil-word").textContent = state.selectedWordPair.c;
+          $("reveal-under-under-word").textContent = state.selectedWordPair.u;
+          showScreen("screen-win-under");
+          return;
+        }
+      }
+
+      /* ============================
+   RESTART
+============================ */
+      function restartGame() {
+        showScreen("screen-config");
+        $("troll-badge").style.display = "none";
+      }
+
+      /* ============================
+   ENTER KEY SUPPORT
+============================ */
+      $("player-name-input").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") showRole();
+      });
+      $("mw-guess-input").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") submitMwGuess();
+      });
+    </script>
+  </body>
+</html>

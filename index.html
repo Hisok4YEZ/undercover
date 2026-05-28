@@ -610,12 +610,6 @@
         color: var(--muted);
         margin-top: 4px;
       }
-      .eliminated-banner .eb-word {
-        font-size: 26px;
-        font-weight: 900;
-        color: var(--red);
-        margin-top: 8px;
-      }
 
       /* ============================
    POPUP / MODAL
@@ -910,7 +904,6 @@
       <div class="eliminated-banner" id="elim-banner">
         <div class="eb-name" id="elim-name">Lucas</div>
         <div class="eb-role" id="elim-role">était Civil</div>
-        <div class="eb-word" id="elim-word">Pizza</div>
       </div>
 
       <div id="mw-guess-section" style="display: none; width: 100%">
@@ -1992,7 +1985,6 @@
                 : "Mr White";
         $("elim-name").textContent = p.name;
         $("elim-role").textContent = `était ${roleLabel}`;
-        $("elim-word").textContent = p.word || p.hint || "???";
 
         // Mr White guess?
         const isMW = !state.trollActive && p.realRole === "mrwhite";

@@ -368,6 +368,8 @@
         font-size: 28px;
         letter-spacing: 3px;
         margin-bottom: 16px;
+        color: var(--red);
+        text-shadow: 0 0 16px var(--red-glow);
       }
       .card-word {
         font-size: 38px;
@@ -1879,35 +1881,33 @@
         const back = $("card-back-face");
         back.className = "card-face card-back";
 
-        let icon, roleName, wordLabel, wordContent;
+        let icon, roleName, showRole, wordLabel, wordContent;
         if (state.trollActive) {
-          icon = "👤";
-          roleName = "CIVIL";
+          icon = "👤"; roleName = ""; showRole = false;
           back.classList.add("civil");
           wordLabel = "TON MOT";
           wordContent = word;
         } else if (role === "civil") {
-          icon = "👤";
-          roleName = "CIVIL";
+          icon = "👤"; roleName = ""; showRole = false;
           back.classList.add("civil");
           wordLabel = "TON MOT";
           wordContent = word;
         } else if (role === "undercover") {
-          icon = "🕵️";
-          roleName = "UNDERCOVER";
-          back.classList.add("undercover");
+          icon = "👤"; roleName = ""; showRole = false;
+          back.classList.add("civil");
           wordLabel = "TON MOT";
           wordContent = word;
         } else {
-          icon = "⬜";
-          roleName = "MR WHITE";
+          icon = "⬜"; roleName = "MR WHITE"; showRole = true;
           back.classList.add("mrwhite");
           wordLabel = "TON INDICE";
           wordContent = hint;
         }
 
         $("card-icon").textContent = icon;
-        $("card-role").textContent = roleName;
+        const roleEl = $("card-role");
+        roleEl.textContent = roleName;
+        roleEl.style.display = showRole ? "block" : "none";
         $("card-word-label").textContent = wordLabel;
         $("card-word").textContent = wordContent;
 

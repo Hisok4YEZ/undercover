@@ -1881,33 +1881,33 @@
         const back = $("card-back-face");
         back.className = "card-face card-back";
 
-        let icon, roleName, showRole, wordLabel, wordContent;
+        let cardIcon, cardRoleName, displayRole, wordLabel, wordContent;
         if (state.trollActive) {
-          icon = "👤"; roleName = ""; showRole = false;
+          cardIcon = "👤"; cardRoleName = ""; displayRole = false;
           back.classList.add("civil");
           wordLabel = "TON MOT";
           wordContent = word;
         } else if (role === "civil") {
-          icon = "👤"; roleName = ""; showRole = false;
+          cardIcon = "👤"; cardRoleName = ""; displayRole = false;
           back.classList.add("civil");
           wordLabel = "TON MOT";
           wordContent = word;
         } else if (role === "undercover") {
-          icon = "👤"; roleName = ""; showRole = false;
+          cardIcon = "👤"; cardRoleName = ""; displayRole = false;
           back.classList.add("civil");
           wordLabel = "TON MOT";
           wordContent = word;
         } else {
-          icon = "⬜"; roleName = "MR WHITE"; showRole = true;
+          cardIcon = "⬜"; cardRoleName = "MR WHITE"; displayRole = true;
           back.classList.add("mrwhite");
           wordLabel = "TON INDICE";
           wordContent = hint;
         }
 
-        $("card-icon").textContent = icon;
+        $("card-icon").textContent = cardIcon;
         const roleEl = $("card-role");
-        roleEl.textContent = roleName;
-        roleEl.style.display = showRole ? "block" : "none";
+        roleEl.textContent = cardRoleName;
+        roleEl.style.display = displayRole ? "block" : "none";
         $("card-word-label").textContent = wordLabel;
         $("card-word").textContent = wordContent;
 
